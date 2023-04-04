@@ -70,7 +70,7 @@ B = torch.ones(4, 3)
 
 # 向量范数
 
-u = torch.tensor([3.0, -4.0])
+u = torch.tensor([3.0, -4.0]) # 就是 3 * 3 + （-4 * -4） ，然后开平方根
  
 print(u)
 print(torch.norm(u))
