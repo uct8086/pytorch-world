@@ -169,7 +169,7 @@ def load_array(data_arrays, batch_size, is_train=True):
     """Construct a PyTorch data iterator.
 
     Defined in :numref:`sec_linear_concise`"""
-    dataset = data.TensorDataset(*data_arrays)
+    dataset = data.TensorDataset(*data_arrays) # 这里*是为了把元组解构成独立的参数
     return data.DataLoader(dataset, batch_size, shuffle=is_train)
 
 def get_fashion_mnist_labels(labels):
@@ -198,6 +198,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):
         ax.axes.get_yaxis().set_visible(False)
         if titles:
             ax.set_title(titles[i])
+    plt.pause(3) # 显示3秒
     return axes
 
 def get_dataloader_workers():
