@@ -1,9 +1,7 @@
 # 图像分类数据集
-import torch
 import torchvision
 from torch.utils import data
 from torchvision import transforms
-from matplotlib import pyplot as plt
 import sys
 sys.path.append("..")
 print(sys.path)
