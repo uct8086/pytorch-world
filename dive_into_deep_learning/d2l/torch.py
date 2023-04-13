@@ -156,6 +156,7 @@ def squared_loss(y_hat, y):
     Defined in :numref:`sec_linear_scratch`"""
     return (y_hat - d2l.reshape(y, y_hat.shape)) ** 2 / 2
 
+# 小批量随机梯度下降
 def sgd(params, lr, batch_size):
     """Minibatch stochastic gradient descent.
 
@@ -325,6 +326,7 @@ class Animator:
         for x, y, fmt in zip(self.X, self.Y, self.fmts):
             self.axes[0].plot(x, y, fmt)
         self.config_axes()
+        plt.pause(3) # 显示3秒
         # display.display(self.fig)
         # display.clear_output(wait=True)
 
@@ -339,6 +341,8 @@ def train_ch3(net, train_iter, test_iter, loss, num_epochs, updater):
         test_acc = evaluate_accuracy(net, test_iter)
         animator.add(epoch + 1, train_metrics + (test_acc,))
     train_loss, train_acc = train_metrics
+    print('do train_ch3')
+    # 这几句只是验证预测有没有达到要求，没有就输出当前值
     assert train_loss < 0.5, train_loss
     assert train_acc <= 1 and train_acc > 0.7, train_acc
     assert test_acc <= 1 and test_acc > 0.7, test_acc
