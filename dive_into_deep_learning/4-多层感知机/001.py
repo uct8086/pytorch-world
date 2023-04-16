@@ -3,7 +3,7 @@ import torch
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.torch import plot
+from dive_into_deep_learning.d2l.d2l_torch import plot
 
 if __name__ == '__main__':
     x = torch.arange(-8.0, 8.0, 0.1, requires_grad=True)

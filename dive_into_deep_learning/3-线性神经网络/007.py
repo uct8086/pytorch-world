@@ -5,7 +5,7 @@ from torchvision import transforms
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.torch import get_fashion_mnist_labels, show_images, use_svg_display, plot
+from dive_into_deep_learning.d2l.d2l_torch import get_fashion_mnist_labels, show_images, use_svg_display, plot
 
 use_svg_display()
 

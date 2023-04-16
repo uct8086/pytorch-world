@@ -5,7 +5,7 @@ from torchvision import transforms
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.torch import Timer, get_dataloader_workers, load_data_fashion_mnist
+from dive_into_deep_learning.d2l.d2l_torch import Timer, get_dataloader_workers, load_data_fashion_mnist
 
 
 # 通过ToTensor实例将图像数据从PIL类型变换成32位浮点数格式， # 并除以255使得所有像素的数值均在0〜1之间
