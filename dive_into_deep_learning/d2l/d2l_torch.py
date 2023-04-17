@@ -140,6 +140,7 @@ def synthetic_data(w, b, num_examples):
 
     Defined in :numref:`sec_linear_scratch`"""
     X = d2l.normal(0, 1, (num_examples, len(w)))
+    # matmul的意思是两个张量的矩阵乘积
     y = d2l.matmul(X, w) + b
     y += d2l.normal(0, 0.01, y.shape)
     return X, d2l.reshape(y, (-1, 1))
@@ -148,6 +149,7 @@ def linreg(X, w, b):
     """The linear regression model.
 
     Defined in :numref:`sec_linear_scratch`"""
+    # matmul的意思是两个张量的矩阵乘积
     return d2l.matmul(X, w) + b
 
 def squared_loss(y_hat, y):
