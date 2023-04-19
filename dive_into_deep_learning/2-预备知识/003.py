@@ -3,7 +3,7 @@ import numpy as np
 # from matplotlib_inline import backend_inline
 import sys
 sys.path.append("..")
-from d2l.torch import plot
+from dive_into_deep_learning.d2l.d2l_torch import plot
 def f(x):
     return 3 * x ** 2 - 4 * x
 

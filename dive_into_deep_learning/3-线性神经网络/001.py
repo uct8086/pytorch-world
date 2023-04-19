@@ -4,7 +4,7 @@ import numpy as np
 import torch
 import sys
 sys.path.append("..")
-from d2l.torch import Timer
+from dive_into_deep_learning.d2l.d2l_torch import Timer
 n = 10000
 a = torch.ones([n])
 b = torch.ones([n])

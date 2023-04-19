@@ -2,7 +2,7 @@ import torch
 from torch.distributions import multinomial
 import sys
 sys.path.append("..")
-from d2l.torch import set_figsize, plt
+from dive_into_deep_learning.d2l.d2l_torch import set_figsize, plt
 
 
 fair_probs = torch.ones([6]) / 6

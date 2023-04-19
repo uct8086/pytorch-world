@@ -4,7 +4,7 @@ from torch import nn
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.torch import load_data_fashion_mnist, train_ch3
+from dive_into_deep_learning.d2l.d2l_torch import load_data_fashion_mnist, train_ch3
 
 # 初始化权重
 def init_weights(m):

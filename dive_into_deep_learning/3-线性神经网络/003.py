@@ -3,7 +3,7 @@ import torch
 import random
 import sys
 sys.path.append("..")
-from d2l.torch import synthetic_data
+from dive_into_deep_learning.d2l.d2l_torch import synthetic_data
 
 true_w = torch.tensor([2, -3.4])
 true_b = 4.2

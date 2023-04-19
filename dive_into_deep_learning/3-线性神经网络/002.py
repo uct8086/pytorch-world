@@ -3,7 +3,7 @@ import math
 import numpy as np
 import sys
 sys.path.append("..")
-from d2l.torch import plot
+from dive_into_deep_learning.d2l.d2l_torch import plot
 
 def normal(x, mu, sigma):
     p = 1 / math.sqrt(2 * math.pi * sigma**2)
