@@ -46,17 +46,10 @@ from torch.nn import functional as F
 from torch.utils import data
 from torchvision import transforms
 
-def use_svg_display():
-    """Use the svg format to display a plot in Jupyter.
-
-    Defined in :numref:`sec_calculus`"""
-    # backend_inline.set_matplotlib_formats('svg')
-
 def set_figsize(figsize=(3.5, 2.5)):
     """Set the figure size for matplotlib.
 
     Defined in :numref:`sec_calculus`"""
-    use_svg_display()
     d2l.plt.rcParams['figure.figsize'] = figsize
 
 def set_axes(axes, xlabel, ylabel, xlim, ylim, xscale, yscale, legend):
@@ -300,7 +293,6 @@ class Animator:
         # Incrementally plot multiple lines
         if legend is None:
             legend = []
-        d2l.use_svg_display()
         self.fig, self.axes = d2l.plt.subplots(nrows, ncols, figsize=figsize)
         if nrows * ncols == 1:
             self.axes = [self.axes, ]
@@ -1127,7 +1119,6 @@ def show_heatmaps(matrices, xlabel, ylabel, titles=None, figsize=(2.5, 2.5),
     """Show heatmaps of matrices.
 
     Defined in :numref:`sec_attention-cues`"""
-    d2l.use_svg_display()
     num_rows, num_cols = matrices.shape[0], matrices.shape[1]
     fig, axes = d2l.plt.subplots(num_rows, num_cols, figsize=figsize,
                                  sharex=True, sharey=True, squeeze=False)
