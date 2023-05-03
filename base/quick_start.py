@@ -6,7 +6,7 @@ from torchvision.transforms import ToTensor
 
 # Download training data from open datasets.
 training_data = datasets.FashionMNIST(
-    root="data",
+    root="../data",
     train=True,
     download=True,
     transform=ToTensor(),
@@ -14,7 +14,7 @@ training_data = datasets.FashionMNIST(
 
 # Download test data from open datasets.
 test_data = datasets.FashionMNIST(
-    root="data",
+    root="../data",
     train=False,
     download=True,
     transform=ToTensor(),
@@ -56,8 +56,9 @@ class NeuralNetwork(nn.Module):
 model = NeuralNetwork().to(device)
 print(model)
 
-
+# 交叉熵损失
 loss_fn = nn.CrossEntropyLoss()
+# 优化算法： 随机梯度下降
 optimizer = torch.optim.SGD(model.parameters(), lr=1e-3)
 
 def train(dataloader, model, loss_fn, optimizer):
@@ -103,12 +104,12 @@ for t in range(epochs):
 print("Done!")
 
 
-torch.save(model.state_dict(), "data/models/model.pth")
+torch.save(model.state_dict(), "../data/models/model.pth")
 print("Saved PyTorch Model State to model.pth")
 
 
 model = NeuralNetwork()
-model.load_state_dict(torch.load("data/models/model.pth"))
+model.load_state_dict(torch.load("../data/models/model.pth"))
 
 
 classes = [
