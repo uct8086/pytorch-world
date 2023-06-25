@@ -55,8 +55,15 @@ if __name__ == '__main__':
     Y, new_state = net(X.to(try_gpu()), state)
     print(Y.shape, len(new_state), new_state[0].shape)
 
-    # 预热+预测
-    print(predict_ch8('time traveller ', 10, net, vocab, try_gpu()))
-    # 训练
+    # # 预热+预测
+    # print(predict_ch8('time traveller ', 10, net, vocab, try_gpu()))
+    # # 训练
     num_epochs, lr = 500, 1
-    train_ch8(net, train_iter, vocab, lr, num_epochs, try_gpu())
+    # train_ch8(net, train_iter, vocab, lr, num_epochs, try_gpu())
+
+    # 用随机抽样方法的结果 
+
+    net = RNNModelScratch(len(vocab), num_hiddens, try_gpu(), get_params,
+                      init_rnn_state, rnn)
+    train_ch8(net, train_iter, vocab, lr, num_epochs, try_gpu(),
+            use_random_iter=True)
