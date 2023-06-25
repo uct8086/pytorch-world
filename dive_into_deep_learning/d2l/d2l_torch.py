@@ -800,7 +800,7 @@ def train_ch8(net, train_iter, vocab, lr, num_epochs, device,
         if (epoch + 1) % 10 == 0:
             print(predict('time traveller'))
             animator.add(epoch + 1, [ppl])
-    print(f'perplexity {ppl:.1f}, {speed:.1f} tokens/sec on {str(device)}')
+    print(f'困惑度 {ppl:.1f}, {speed:.1f} 词元/秒 on {str(device)}')
     print(predict('time traveller'))
     print(predict('traveller'))
 
