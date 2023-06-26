@@ -714,23 +714,23 @@ class RNNModelScratch:
         return self.init_state(batch_size, self.num_hiddens, device)
 
 def predict_ch8(prefix, num_preds, net, vocab, device):
-    """Generate new characters following the `prefix`.
+    """在prefix后面生成新字符.
 
     Defined in :numref:`sec_rnn_scratch`"""
     state = net.begin_state(batch_size=1, device=device)
     outputs = [vocab[prefix[0]]]
     get_input = lambda: d2l.reshape(d2l.tensor(
         [outputs[-1]], device=device), (1, 1))
-    for y in prefix[1:]:  # Warm-up period
+    for y in prefix[1:]:  # 预热期
         _, state = net(get_input(), state)
         outputs.append(vocab[y])
-    for _ in range(num_preds):  # Predict `num_preds` steps
+    for _ in range(num_preds):  # 预测num_preds步
         y, state = net(get_input(), state)
         outputs.append(int(y.argmax(dim=1).reshape(1)))
     return ''.join([vocab.idx_to_token[i] for i in outputs])
 
 def grad_clipping(net, theta):
-    """Clip the gradient.
+    """裁剪梯度.
 
     Defined in :numref:`sec_rnn_scratch`"""
     if isinstance(net, nn.Module):
@@ -787,19 +787,21 @@ def train_ch8(net, train_iter, vocab, lr, num_epochs, device,
     loss = nn.CrossEntropyLoss()
     animator = d2l.Animator(xlabel='epoch', ylabel='perplexity',
                             legend=['train'], xlim=[10, num_epochs])
-    # Initialize
+    # 初始化
     if isinstance(net, nn.Module):
         updater = torch.optim.SGD(net.parameters(), lr)
     else:
+        # Lambda 函数也被称为匿名(没有名称)函数，它直接接受参数的数量以及使用该参数执行的条件或操作，该参数以冒号分隔，并返回最终结果
         updater = lambda batch_size: d2l.sgd(net.params, lr, batch_size)
     predict = lambda prefix: predict_ch8(prefix, 50, net, vocab, device)
-    # Train and predict
+    # 训练和预测
     for epoch in range(num_epochs):
         ppl, speed = train_epoch_ch8(
             net, train_iter, loss, updater, device, use_random_iter)
         if (epoch + 1) % 10 == 0:
             print(predict('time traveller'))
             animator.add(epoch + 1, [ppl])
+            print('ppl: ', [ppl])
     print(f'困惑度 {ppl:.1f}, {speed:.1f} 词元/秒 on {str(device)}')
     print(predict('time traveller'))
     print(predict('traveller'))
@@ -899,6 +901,7 @@ def show_list_len_pair_hist(legend, xlabel, ylabel, xlist, ylist):
     for patch in patches[1].patches:
         patch.set_hatch('/')
     d2l.plt.legend(legend)
+    d2l.plt.show()
 
 def truncate_pad(line, num_steps, padding_token):
     """Truncate or pad sequences.

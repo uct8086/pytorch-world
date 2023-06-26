@@ -37,6 +37,7 @@ def rnn(inputs, state, params):
             H = torch.tanh(torch.mm(X, W_xh) + torch.mm(H, W_hh) + b_h)
             Y = torch.mm(H, W_hq) + b_q
             outputs.append(Y)
+    # 返回输出和更新后的隐状态
     return torch.cat(outputs, dim=0), (H,)
 
 if __name__ == '__main__':
@@ -49,11 +50,11 @@ if __name__ == '__main__':
 
 
     num_hiddens = 512
-    net = RNNModelScratch(len(vocab), num_hiddens, try_gpu(), get_params,
-                        init_rnn_state, rnn)
-    state = net.begin_state(X.shape[0], try_gpu())
-    Y, new_state = net(X.to(try_gpu()), state)
-    print(Y.shape, len(new_state), new_state[0].shape)
+    # net = RNNModelScratch(len(vocab), num_hiddens, try_gpu(), get_params,
+    #                     init_rnn_state, rnn)
+    # state = net.begin_state(X.shape[0], try_gpu())
+    # Y, new_state = net(X.to(try_gpu()), state)
+    # print(Y.shape, len(new_state), new_state[0].shape)
 
     # # 预热+预测
     # print(predict_ch8('time traveller ', 10, net, vocab, try_gpu()))
