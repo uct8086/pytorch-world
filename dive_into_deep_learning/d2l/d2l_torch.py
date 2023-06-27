@@ -1134,7 +1134,8 @@ def show_heatmaps(matrices, xlabel, ylabel, titles=None, figsize=(2.5, 2.5),
                 ax.set_ylabel(ylabel)
             if titles:
                 ax.set_title(titles[j])
-    fig.colorbar(pcm, ax=axes, shrink=0.6);
+    fig.colorbar(pcm, ax=axes, shrink=0.6)
+    d2l.plt.show()
 
 def masked_softmax(X, valid_lens):
     """Perform softmax operation by masking elements on the last axis.
