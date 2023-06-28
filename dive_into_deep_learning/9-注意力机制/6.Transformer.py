@@ -5,7 +5,7 @@ from torch import nn
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.d2l_torch import MultiHeadAttention, PositionWiseFFN, AddNorm, EncoderBlock, TransformerEncoder, try_gpu, load_data_nmt, PositionalEncoding, EncoderDecoder, train_seq2seq, AttentionDecoder, predict_seq2seq, bleu
+from dive_into_deep_learning.d2l.d2l_torch import MultiHeadAttention, PositionWiseFFN, AddNorm, EncoderBlock, TransformerEncoder, try_gpu, load_data_nmt, PositionalEncoding, EncoderDecoder, train_seq2seq, AttentionDecoder, predict_seq2seq, bleu, show_heatmaps
 
 class DecoderBlock(nn.Module):
     """解码器中第i个块"""
@@ -148,3 +148,19 @@ if __name__ == '__main__':
         translation, dec_attention_weight_seq = predict_seq2seq(
             net, eng, src_vocab, tgt_vocab, num_steps, device, True)
         print(f'{eng} => {translation}, ', f'bleu {bleu(translation, fra, k=2):.3f}')
+
+    # 可视化Transformer的注意力权重
+    # enc_attention_weights = torch.cat(net.encoder.attention_weights, 0).reshape((num_layers, num_heads, -1, num_steps))
+    # print(enc_attention_weights.shape)
+    # show_heatmaps( enc_attention_weights.cpu(), xlabel='Key positions', ylabel='Query positions', titles=['Head %d' % i for i in range(1, 5)], figsize=(7, 3.5))
+
+    dec_attention_weights_2d = [head[0].tolist()
+                            for step in dec_attention_weight_seq
+                            for attn in step for blk in attn for head in blk]
+    dec_attention_weights_filled = torch.tensor(
+        pd.DataFrame(dec_attention_weights_2d).fillna(0.0).values)
+    dec_attention_weights = dec_attention_weights_filled.reshape((-1, 2, num_layers, num_heads, num_steps))
+    dec_self_attention_weights, dec_inter_attention_weights = \
+        dec_attention_weights.permute(1, 2, 3, 0, 4)
+    dec_self_attention_weights.shape, dec_inter_attention_weights.shape
+    show_heatmaps( dec_self_attention_weights[:, :, :, :len(translation.split()) + 1], xlabel='Key positions', ylabel='Query positions', titles=['Head %d' % i for i in range(1, 5)], figsize=(7, 3.5))
