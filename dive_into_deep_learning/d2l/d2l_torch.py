@@ -1385,13 +1385,16 @@ def annotate(text, xy, xytext):
     d2l.plt.gca().annotate(text, xy=xy, xytext=xytext,
                            arrowprops=dict(arrowstyle='->'))
 
-def train_2d(trainer, steps=20, f_grad=None):
+def train_2d(trainer, steps=20, f_grad=None, init_tensor=False):
     """Optimize a 2D objective function with a customized trainer.
 
     Defined in :numref:`subsec_gd-learningrate`"""
     # `s1` and `s2` are internal state variables that will be used later
     x1, x2, s1, s2 = -5, -2, 0, 0
     results = [(x1, x2)]
+    # 修复随机梯度更新的Bug
+    if init_tensor:
+        results = [(torch.tensor([x1]), torch.tensor([x2]))]
     for i in range(steps):
         if f_grad:
             x1, x2, s1, s2 = trainer(x1, x2, s1, s2, f_grad)
@@ -1412,6 +1415,7 @@ def show_trace_2d(f, results):
     d2l.plt.contour(x1, x2, f(x1, x2), colors='#1f77b4')
     d2l.plt.xlabel('x1')
     d2l.plt.ylabel('x2')
+    d2l.plt.show()
 
 d2l.DATA_HUB['airfoil'] = (d2l.DATA_URL + 'airfoil_self_noise.dat',
                            '76e5be1548fd8222e5074cf0faae75edff8cf93f')
