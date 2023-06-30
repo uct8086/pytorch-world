@@ -4,7 +4,7 @@ from torch import nn
 import sys
 sys.path.append("..")
 print(sys.path)
-from dive_into_deep_learning.d2l.d2l_torch import get_data_ch11, train_ch11, set_figsize, plot, plt, train_concise_ch11
+from dive_into_deep_learning.d2l.d2l_torch import get_data_ch11, train_ch11, set_figsize, plt, plot, train_concise_ch11
 
 def sgd(params, states, hyperparams):
     for p in params:
@@ -18,21 +18,26 @@ def train_sgd(lr, batch_size, num_epochs=2):
 
 if __name__ == '__main__':
     
-    # gd_res = train_sgd(1, 1500, 10)
+    gd_res = train_sgd(1, 1500, 10)
 
-    # sgd_res = train_sgd(0.005, 1)
+    sgd_res = train_sgd(0.005, 1)
 
-    # mini1_res = train_sgd(0.4, 100)
+    mini1_res = train_sgd(0.4, 100)
 
-    # mini2_res = train_sgd(.05, 10)
+    mini2_res = train_sgd(.05, 10)
 
     # loss: 0.250, 0.038 sec/epoch
     # loss: 0.243, 0.052 sec/epoch
     # loss: 0.245, 0.003 sec/epoch
     # loss: 0.244, 0.008 sec/epoch
+    # 这里需要打断点调试才能看到详情
+    plot(*list(map(list, zip(gd_res, sgd_res, mini1_res, mini2_res))), 
+         'time (sec)', 'loss', xscale='log', xlim=[1e-2, 10], figsize=(6, 3),
+         legend=['gd', 'sgd', 'batch size=100', 'batch size=10'])
+    
 
-    data_iter, _ = get_data_ch11(10)
-    trainer = torch.optim.SGD
-    train_concise_ch11(trainer, {'lr': 0.01}, data_iter)
+    # data_iter, _ = get_data_ch11(10)
+    # trainer = torch.optim.SGD
+    # train_concise_ch11(trainer, {'lr': 0.01}, data_iter)
     
  
