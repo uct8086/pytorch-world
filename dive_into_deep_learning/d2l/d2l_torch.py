@@ -194,7 +194,7 @@ def show_images(imgs, num_rows, num_cols, titles=None, scale=1.5):
         ax.axes.get_yaxis().set_visible(False)
         if titles:
             ax.set_title(titles[i])
-    plt.pause(3) # 显示3秒
+    plt.show() # 显示3秒
     return axes
 
 def get_dataloader_workers():
@@ -320,7 +320,7 @@ class Animator:
         for x, y, fmt in zip(self.X, self.Y, self.fmts):
             self.axes[0].plot(x, y, fmt)
         self.config_axes()
-        plt.pause(3) # 显示3秒
+        plt.show() # 显示3秒
         # display.display(self.fig)
         # display.clear_output(wait=True)
 
