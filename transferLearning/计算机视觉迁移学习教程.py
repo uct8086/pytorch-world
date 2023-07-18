@@ -132,6 +132,27 @@ def visualize_model(model, num_images=6):
                     return
         model.train(mode=was_training)
 
+# 自定义图片推理
+def visualize_model_predictions(model,img_path):
+    was_training = model.training
+    model.eval()
+
+    img = Image.open(img_path)
+    img = data_transforms['val'](img)
+    img = img.unsqueeze(0)
+    img = img.to(device)
+
+    with torch.no_grad():
+        outputs = model(img)
+        _, preds = torch.max(outputs, 1)
+
+        ax = plt.subplot(2,2,1)
+        ax.axis('off')
+        ax.set_title(f'Predicted: {class_names[preds[0]]}')
+        imshow(img.cpu().data[0])
+
+        model.train(mode=was_training)
+
 
 if __name__ == '__main__':
 
@@ -167,7 +188,7 @@ if __name__ == '__main__':
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-
+    print('current use device : ', device)
     # Get a batch of training data
     # inputs, classes = next(iter(dataloaders['train']))
 
@@ -176,23 +197,59 @@ if __name__ == '__main__':
 
     # imshow(out, title=[class_names[x] for x in classes])
 
-    model_ft = models.resnet18(weights='IMAGENET1K_V1')
-    num_ftrs = model_ft.fc.in_features
-    # Here the size of each output sample is set to 2.
-    # Alternatively, it can be generalized to ``nn.Linear(num_ftrs, len(class_names))``.
-    model_ft.fc = nn.Linear(num_ftrs, 2)
+    # model_ft = models.resnet18(weights='IMAGENET1K_V1')
+    # num_ftrs = model_ft.fc.in_features
+    # # Here the size of each output sample is set to 2.
+    # # Alternatively, it can be generalized to ``nn.Linear(num_ftrs, len(class_names))``.
+    # model_ft.fc = nn.Linear(num_ftrs, 2)
 
-    model_ft = model_ft.to(device)
+    # model_ft = model_ft.to(device)
+
+    # criterion = nn.CrossEntropyLoss()
+
+    # # Observe that all parameters are being optimized
+    # optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+
+    # # Decay LR by a factor of 0.1 every 7 epochs
+    # exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+
+    # model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
+    #                    num_epochs=25)
+    
+    # visualize_model(model_ft)
+
+    # ConvNet 作为固定特征提取器
+    model_conv = torchvision.models.resnet18(weights='IMAGENET1K_V1')
+    for param in model_conv.parameters():
+        param.requires_grad = False
+
+    # Parameters of newly constructed modules have requires_grad=True by default
+    num_ftrs = model_conv.fc.in_features
+    model_conv.fc = nn.Linear(num_ftrs, 2)
+
+    model_conv = model_conv.to(device)
 
     criterion = nn.CrossEntropyLoss()
 
-    # Observe that all parameters are being optimized
-    optimizer_ft = optim.SGD(model_ft.parameters(), lr=0.001, momentum=0.9)
+    # Observe that only parameters of final layer are being optimized as
+    # opposed to before.
+    optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=0.001, momentum=0.9)
 
     # Decay LR by a factor of 0.1 every 7 epochs
-    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+    exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=7, gamma=0.1)
 
-    model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
-                       num_epochs=25)
+    model_conv = train_model(model_conv, criterion, optimizer_conv,
+                         exp_lr_scheduler, num_epochs=25)
     
-    visualize_model(model_ft)
+    # visualize_model(model_conv)
+
+    # plt.ioff()
+    # plt.show()
+
+    visualize_model_predictions(
+        model_conv,
+        img_path='../data/hymenoptera_data/val/bees/72100438_73de9f17af.jpg'
+    )
+
+    plt.ioff()
+    plt.show()
