@@ -20,7 +20,8 @@ def compute_metrics(eval_pred):
 if __name__ == '__main__':
 
     model_name = './models/bert-base-cased'
-    dataset = load_dataset("yelp_review_full", cache_dir='./data/yelp_review_full')
+    # dataset = load_dataset("yelp_review_full", cache_dir='./data/yelp_review_full')
+    dataset = load_dataset('./data/yelp_review_full')
     print(dataset["train"][100])
 
     tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     lr_scheduler = get_scheduler(
         name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
     )
-    
+
     # 指定device使用 GPU
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     model.to(device)
