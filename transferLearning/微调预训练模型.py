@@ -48,7 +48,7 @@ if __name__ == '__main__':
     optimizer = AdamW(model.parameters(), lr=5e-5)
     
     # 从Trainer创建默认学习率调度程序
-    num_epochs = 100
+    num_epochs = 3
     num_training_steps = num_epochs * len(train_dataloader)
     lr_scheduler = get_scheduler(
         name="linear", optimizer=optimizer, num_warmup_steps=0, num_training_steps=num_training_steps
@@ -87,6 +87,7 @@ if __name__ == '__main__':
         metric.add_batch(predictions=predictions, references=batch["labels"])
 
     print('最终准确度是： ', metric.compute())
+    # 最终准确度是：  {'accuracy': 0.592}
 
     # 保存模型
     tokenizer.save_pretrained("./models/local-train-model")
