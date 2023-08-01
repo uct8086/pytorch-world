@@ -1,5 +1,9 @@
 transferLearning/data/
 transferLearning/models/
+docs/
+dive_into_deep_learning/
+data/
+base/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
