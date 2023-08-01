@@ -8,10 +8,13 @@ ChatGLM2-6B 是开源中英双语对话模型 ChatGLM-6B 的第二代版本，�
 
 """
 import sys
+import os
 from transformers import AutoTokenizer, AutoModel
 
 
 if __name__ == '__main__':
+
+    # os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:1024"
 
     tokenizer = AutoTokenizer.from_pretrained("./models/THUDM/chatglm2-6b-int4", trust_remote_code=True)
     model = AutoModel.from_pretrained("./models/THUDM/chatglm2-6b-int4", trust_remote_code=True).half().cuda()
@@ -20,8 +23,15 @@ if __name__ == '__main__':
     response, history = model.chat(tokenizer, "你好", history=[])
     print(response)
 
-    for line in sys.stdin:
-        content = line.split()
-        response, history = model.chat(tokenizer, content, history=history)
-        print(response)
+    prompt = ''
+    line_text = ''
+
+    while True:
+        line_text = input()
+        if line_text == 'begin':
+            print('开始预测：\n')
+            response, history = model.chat(tokenizer, prompt, history=history)
+            print(response)
+            break
+        prompt += line_text
 

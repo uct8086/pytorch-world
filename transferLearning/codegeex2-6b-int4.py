@@ -13,7 +13,7 @@ if __name__ == '__main__':
     # write a bubble sort function
 
     print('请输入指令：\n\n')
-    prompt = '# language: python\n '
+    prompt = '<!--language: Vue-->\n '
     line_text = ''
 
     while True:
@@ -23,10 +23,12 @@ if __name__ == '__main__':
             # prompt = "# language: python\n# write a bubble sort function\n"
             print('当前Prompt： \n', prompt)
             inputs = tokenizer.encode(prompt, return_tensors="pt").to(model.device)
-            outputs = model.generate(inputs, max_length=256, top_k=1)
-            response = tokenizer.decode(outputs[0])
-            print(response)
+            outputs = model.generate(inputs, max_length=1024, top_k=0, top_p=0.92)
+            # print(outputs.cpu().numpy().tolist(), 'hehe')
+            for output in outputs.cpu().numpy().tolist():
+                response = tokenizer.decode(output)
+                print(response)
             break
-        prompt += '# ' + line_text + '\n'
+        prompt += '<!--' + line_text + '-->\n'
 
 
