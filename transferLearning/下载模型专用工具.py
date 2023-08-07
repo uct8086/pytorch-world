@@ -37,18 +37,38 @@ if __name__ == "__main__":
     # tokenizer.save_pretrained("./models/THUDM/codegeex2-6b-int4")
     # model.save_pretrained("./models/THUDM/codegeex2-6b-int4")
 
-    name = 'mosaicml/mpt-7b'
+    # name = 'mosaicml/mpt-7b'
 
-    tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neox-20b')
-    config = AutoConfig.from_pretrained(name, trust_remote_code=True)
-    config.attn_config['attn_impl'] = 'triton'
-    config.init_device = 'cuda:0' # For fast initialization directly on GPU!
+    # tokenizer = AutoTokenizer.from_pretrained('EleutherAI/gpt-neox-20b')
+    # config = AutoConfig.from_pretrained(name, trust_remote_code=True)
+    # config.attn_config['attn_impl'] = 'triton'
+    # config.init_device = 'cuda:0' # For fast initialization directly on GPU!
 
-    model = AutoModelForCausalLM.from_pretrained(
-        name,
-        config=config,
-        torch_dtype=torch.bfloat16, # Load model weights in bfloat16
-        trust_remote_code=True
-    )
-    tokenizer.save_pretrained("./models/EleutherAI/gpt-neox-20b")
-    model.save_pretrained("./models/mosaicml/mpt-7b")
+    # model = AutoModelForCausalLM.from_pretrained(
+    #     name,
+    #     config=config,
+    #     torch_dtype=torch.bfloat16, # Load model weights in bfloat16
+    #     trust_remote_code=True
+    # )
+    # tokenizer.save_pretrained("./models/EleutherAI/gpt-neox-20b")
+    # model.save_pretrained("./models/mosaicml/mpt-7b")
+
+
+
+    # name = "tiiuae/falcon-7b"
+
+    # tokenizer = AutoTokenizer.from_pretrained(name)
+
+    # model = AutoModelForCausalLM.from_pretrained(
+    #     name,
+    #     torch_dtype=torch.bfloat16, # Load model weights in bfloat16
+    #     trust_remote_code=True
+    # )
+    # tokenizer.save_pretrained("./models/tiiuae/falcon-7b")
+    # model.save_pretrained("./models/tiiuae/falcon-7b")
+
+
+    tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True)
+    model = AutoModel.from_pretrained("THUDM/chatglm2-6b", trust_remote_code=True).half().cuda()
+    tokenizer.save_pretrained("./models/THUDM/chatglm2-6b")
+    model.save_pretrained("./models/THUDM/chatglm2-6b")
