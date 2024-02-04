@@ -6,6 +6,8 @@ from transformers import BertTokenizer, BertModel, AutoTokenizer, AutoModel
 
 if __name__ == "__main__":
 
+    os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'
+
     # bert-base-uncased
     # tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
     # model = BertModel.from_pretrained("bert-base-uncased")

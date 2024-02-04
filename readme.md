@@ -9,3 +9,13 @@
 # 2023-07-13 更新
 
 已完结，系统地了解了深度学习这个领域
+
+# 下载模型
+
+HF_ENDPOINT=https://hf-mirror.com python ./transferLearning/下载模型专用工具.py 
+
+
+### hiyouga/Qwen-14B-Chat-LLaMAfied
+
+
+ huggingface-cli download --resume-download --local-dir-use-symlinks False Qwen/Qwen-14B-Chat  --local-dir models/Qwen-14B-Chat
